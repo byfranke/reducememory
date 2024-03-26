@@ -1,7 +1,7 @@
 # Reduce Memory Cache Script for Linux
 
 
-#Overview
+# Overview
 The reduce_memory.sh script is designed to automatically clear the system's memory cache on Linux operating systems. This can be particularly useful for servers or systems that remain operational for extended periods and might benefit from periodic cache clearance to free up unused memory.
 
 This repository contains three key components:
