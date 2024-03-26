@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for Reduce Memory Cache Service
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=10min
+Unit=reduce_memory.service
+
+[Install]
+WantedBy=timers.target

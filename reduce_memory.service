@@ -1,0 +1,10 @@
+[Unit]
+Description=Reduce Memory Cache Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reduce_memory.sh
+
+[Install]
+WantedBy=multi-user.target
+
