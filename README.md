@@ -16,17 +16,17 @@ The installation process is streamlined with the install.sh script. This script 
 
 
 # Usage
-Download the Scripts: Clone this repository or download the .sh and .service files to your local system.
+**Download the Scripts**: Clone this repository or download the .sh and .service files to your local system.
 ```
 git clone https://github.com/byfranke/reducememory
 ```
 
-Make install.sh Executable: Change the permission of the install.sh script to make it executable by running:
+**Make install.sh Executable**: Change the permission of the install.sh script to make it executable by running:
 ```
 chmod +x install.sh
 ```
 
-Run install.sh as Root: Execute the install.sh script with root privileges to automatically install and configure the service. In the terminal, execute:
+**Run install.sh as Root**: Execute the install.sh script with root privileges to automatically install and configure the service. In the terminal, execute:
 ```
 sudo ./install.sh
 ```
