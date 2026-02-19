@@ -12,7 +12,7 @@ reduce_memory.timer: A systemd timer file that schedules the periodic execution 
 
 
 # Installation
-The installation process is streamlined with the install.sh script. This script automatically places the reduce_memory.sh, reduce_memory.service, and reduce_memory.timer files in their appropriate locations and enables the timer to ensure the script is executed every 10 minutes, as well as at system startup.
+The installation process is streamlined with the setup.sh script. This script automatically places the reduce_memory.sh, reduce_memory.service, and reduce_memory.timer files in their appropriate locations and enables the timer to ensure the script is executed every 10 minutes, as well as at system startup.
 
 
 # Usage
@@ -21,14 +21,14 @@ The installation process is streamlined with the install.sh script. This script 
 git clone https://github.com/byfranke/reducememory
 ```
 
-**Make install.sh Executable**: Change the permission of the install.sh script to make it executable by running:
+**Make setup.sh Executable**: Change the permission of the setup.sh script to make it executable by running:
 ```
-chmod +x install.sh
+chmod +x setup.sh
 ```
 
-**Run install.sh as Root**: Execute the install.sh script with root privileges to automatically install and configure the service. In the terminal, execute:
+**Run setup.sh as Root**: Execute the setup.sh script with root privileges to automatically install and configure the service. In the terminal, execute:
 ```
-sudo ./install.sh
+sudo ./setup.sh
 ```
 
 After installation, the reduce_memory.sh script will run in the background every 10 minutes to clear the memory cache, without requiring any further action.

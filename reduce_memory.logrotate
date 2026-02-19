@@ -1,0 +1,9 @@
+# /etc/logrotate.d/reduce_memory
+/var/log/reduce_memory.log {
+    size 1M
+    rotate 4
+    compress
+    missingok
+    notifempty
+    create 640 root adm
+}
