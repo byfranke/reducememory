@@ -1,37 +1,71 @@
 # Reduce Memory Cache Script for Linux
 
+## Overview
 
-# Overview
-The reduce_memory.sh script is designed to automatically clear the system's memory cache on Linux operating systems. This can be particularly useful for servers or systems that remain operational for extended periods and might benefit from periodic cache clearance to free up unused memory.
+This project provides a small Linux automation that can drop filesystem caches when available memory is below a configured threshold.
 
-This repository contains three key components:
+It includes:
 
-reduce_memory.sh: The Bash script that clears the memory cache when executed.
-reduce_memory.service: A systemd service file that defines how the script should be executed.
-reduce_memory.timer: A systemd timer file that schedules the periodic execution of the script.
+- `reduce_memory.sh`: Script that checks memory and optionally runs cache drop.
+- `reduce_memory.service`: systemd oneshot service that executes the script.
+- `reduce_memory.timer`: systemd timer that triggers the service every 10 minutes.
+- `reduce_memory.logrotate`: logrotate rule for `/var/log/reduce_memory.log`.
+- `setup.sh`: installer/uninstaller for all components.
 
+## Behavior
 
-# Installation
-The installation process is streamlined with the setup.sh script. This script automatically places the reduce_memory.sh, reduce_memory.service, and reduce_memory.timer files in their appropriate locations and enables the timer to ensure the script is executed every 10 minutes, as well as at system startup.
+The script prefers `MemAvailable` from `/proc/meminfo` to decide whether to drop cache.
+If `MemAvailable` is not present, it falls back to `MemFree`.
 
+Default threshold:
 
-# Usage
-**Download the Scripts**: Clone this repository or download the .sh and .service files to your local system.
-```
+- `MEM_MIN = 512` MB
+
+Configuration source precedence:
+
+1. First argument passed to `reduce_memory.sh`
+2. `MEM_MIN_ENV` from `/etc/default/reduce_memory`
+3. Built-in default (`512`)
+
+## Installation
+
+Clone the repository:
+
+```bash
 git clone https://github.com/byfranke/reducememory
+cd reducememory
 ```
 
-**Make setup.sh Executable**: Change the permission of the setup.sh script to make it executable by running:
-```
+Make installer executable and run as root:
+
+```bash
 chmod +x setup.sh
-```
-
-**Run setup.sh as Root**: Execute the setup.sh script with root privileges to automatically install and configure the service. In the terminal, execute:
-```
 sudo ./setup.sh
 ```
 
-After installation, the reduce_memory.sh script will run in the background every 10 minutes to clear the memory cache, without requiring any further action.
+The installer:
 
-# Note
-Running this script might be beneficial for specific use cases where freeing up cache memory is necessary. However, please note that the Linux kernel manages memory efficiently, including cache memory usage. Clearing the cache frequently may impact performance for some applications. Use this script judiciously, considering your system's specific needs and behavior.
+- Copies files to `/usr/local/bin` and `/etc/systemd/system`
+- Installs `/etc/logrotate.d/reduce_memory`
+- Writes `/etc/default/reduce_memory`
+- Enables and starts `reduce_memory.timer`
+
+## Custom Installation
+
+When `setup.sh` asks the installation type, select `Custom` and define the threshold in MB.
+The selected value is written to `/etc/default/reduce_memory` as `MEM_MIN_ENV`.
+
+## Uninstall
+
+Run:
+
+```bash
+sudo ./setup.sh uninstall
+```
+
+This disables/stops the timer and removes installed script, systemd units, logrotate config, and environment file.
+
+## Operational Notes
+
+Linux usually manages cache efficiently, so dropping caches frequently can hurt performance.
+Use this automation only when you have measured memory pressure and validated the impact on your workload.

@@ -3,6 +3,7 @@ Description=Reduce Memory Cache Service
 
 [Service]
 Type=oneshot
+EnvironmentFile=-/etc/default/reduce_memory
 ExecStart=/usr/local/bin/reduce_memory.sh
 
 [Install]
